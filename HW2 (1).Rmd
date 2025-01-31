@@ -1,0 +1,159 @@
+---
+title: 'STAR 513: HW 2'
+author: "Yvette Uwineza"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+#Retain this code chunk!!!
+library(knitr)
+library(tidyverse)
+library(ggplot2)
+
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+
+
+
+# loading the data
+ex11_32 <- read_csv("Homework_1/ex11-32.csv")
+
+
+```
+
+Total points: 24 \
+Questions are worth **2 pts** each, except where noted. \
+See Canvas calendar for due date. \
+
+Homework should be submitted as a pdf, doc or docx file via Canvas. \
+Use of R markdown HW template is strongly encouraged. \
+Add or delete code chunks as needed. \
+Knit frequently to avoid last minute problems! \
+Your submitted assignment should be neatly formatted and organized. \
+
+**Ott & Longnecker Example 11.32:**  A chemist is interested in the association between weight loss in lbs (y) versus the exposure time in hours (x) for a particular compound. The data includes n = 12 observations. The data ex11-32.csv is available from Canvas.  
+
+This assignment is very similar to Lec02_examples: Simple Linear Regression!
+
+## Q1 (4 pts)
+
+For this question, please use the ggplot2 package (available through tidyverse).  You may need to install this package if it is the first time you have used it. Create a scatterplot of the data with fitted regression line overlaid.  Your plot should include axis labels that include the units for each variable.
+
+```{r, Q1, out.width = "70%"}
+#Q1
+
+ggplot(ex11_32, aes(x = ExposureTime, y = WeightLoss)) +
+  geom_point(color = "blue") +  # Scatter points
+  geom_smooth(method = "lm", color = "red", se = FALSE) +  # Regression line
+  labs(
+    title = "Scatterplot of Weight Loss vs Exposure Time",
+    x = "Exposure Time (hours)",
+    y = "Weight Loss (lbs)"
+  ) +
+  theme_bw()
+
+```
+
+## Q2 
+
+Fit an appropriate regression model and show the summary() output.
+
+*****
+```{r, Q2}
+#Q2
+
+# fitting a model
+model <- lm(WeightLoss ~ ExposureTime, data = ex11_32)
+
+summary(model)
+
+
+```
+*****
+
+## Q3 
+
+For this question, please use the tidy() function from the broom package. You may need to install this package if it is the first time you have used it.  From the model you fit in the previous question, present "tidy" results. 
+
+*****
+```{r, Q3}
+#Q3
+library(broom)
+
+```
+*****
+
+## Q4 (4 pts)
+
+Provide a detailed interpretation of the estimated **slope** in context of this research study.  Your interpretation should include appropriate units and the numeric value for the estimated slope.  
+
+*****
+Response
+
+*****
+
+## Q5
+
+Consider the p-value corresponding to ExposureTime.  State the null hypothesis using standard greek letter notation and subscripting.  Hint: See the end of the Lec1_notes for LaTex code examples.
+
+*****
+Response
+
+*****
+
+
+## Q6 
+
+Do we have evidence (at the alpha = 0.05 level) of a linear association between weight loss and exposure time? Is the association positive or negative? Justify your response using an appropriate p-value.  
+
+*****
+Response
+
+*****
+
+## Q7
+
+Create the plots of (1) residuals vs fitted values and (2) qqplot of residuals. 
+
+```{r, Q7, out.width = "70%"}
+#Q7 
+
+```
+
+## Q8 (4 pts) 
+
+The four assumptions of simple linear regression are listed below.  For each assumption, state a graph that can be used to check the assumption.  If an assumption cannot be checked graphically, write "Cannot be checked graphically".  You do NOT need to evaluate the assumptions for this question.  
+
+*****
+Independence:  \
+Equal variance: \
+Normality of Residuals: \
+Linearity:  \
+
+*****
+
+## Q9
+
+Use model.matrix() to examine the design or model matrix (but you do not need to
+include it in your assignment). \
+How many rows are there? How does the number of rows relate to the number of observations (n)? \
+How many columns are there? How does the number of columns relate to the number of model coefficients/parameters/”betas”? \
+
+*****
+Number of rows = ? = 
+
+Number of cols = ? =   
+
+```{r, Q9}
+#Q9
+
+```
+
+*****
+
+
+# Appendix
+```{r show-code, ref.label = all_labels(), echo = TRUE, eval = FALSE}
+```
