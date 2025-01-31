@@ -2,6 +2,7 @@
 title: 'STAR 513: HW 2'
 author: "Yvette Uwineza"
 output:
+  pdf_document: default
   html_document:
     df_print: paged
 ---
@@ -11,6 +12,7 @@ output:
 library(knitr)
 library(tidyverse)
 library(ggplot2)
+library(broom)
 
 knitr::opts_chunk$set(echo = FALSE)
 knitr::opts_chunk$set(message = FALSE)
@@ -80,8 +82,11 @@ For this question, please use the tidy() function from the broom package. You ma
 *****
 ```{r, Q3}
 #Q3
-library(broom)
 
+results <- tidy(model)
+
+
+print(results)
 ```
 *****
 
@@ -90,7 +95,7 @@ library(broom)
 Provide a detailed interpretation of the estimated **slope** in context of this research study.  Your interpretation should include appropriate units and the numeric value for the estimated slope.  
 
 *****
-Response
+The slope estimated above is 1.317. It can be interpreted as follow: For one hour of additional exposure time, the expected weight loss is increased by 1.317 lbs.
 
 *****
 
