@@ -104,7 +104,15 @@ The slope estimated above is 1.317. It can be interpreted as follow: For one hou
 Consider the p-value corresponding to ExposureTime.  State the null hypothesis using standard greek letter notation and subscripting.  Hint: See the end of the Lec1_notes for LaTex code examples.
 
 *****
-Response
+
+## Question 5: Null Hypothesis in LaTeX
+
+
+$H_0: \beta_1 = 0$ No linear relationship between exposure time and weight loss
+
+$H_A: \beta_1 \neq 0$ There is a linear relationship between exposure time and weight loss.
+
+
 
 *****
 
@@ -114,7 +122,7 @@ Response
 Do we have evidence (at the alpha = 0.05 level) of a linear association between weight loss and exposure time? Is the association positive or negative? Justify your response using an appropriate p-value.  
 
 *****
-Response
+At 0.05 significance level, the pvalue is less than 0.05, so we reject the null hypothesis that there is no linear relationship between exposure time and weight loss. Looking at the slope we got earlier which is positive 1.317, we can say that exposure time increases so does the weight loss as well.
 
 *****
 
@@ -124,6 +132,15 @@ Create the plots of (1) residuals vs fitted values and (2) qqplot of residuals.
 
 ```{r, Q7, out.width = "70%"}
 #Q7 
+
+par(mfrow = c(1,2))
+
+plot(model, which = 1)
+
+plot(model, which = 2)
+
+par(mfrow = c(1,1))
+
 
 ```
 
@@ -162,3 +179,4 @@ Number of cols = ? =
 # Appendix
 ```{r show-code, ref.label = all_labels(), echo = TRUE, eval = FALSE}
 ```
+
