@@ -149,10 +149,10 @@ par(mfrow = c(1,1))
 The four assumptions of simple linear regression are listed below.  For each assumption, state a graph that can be used to check the assumption.  If an assumption cannot be checked graphically, write "Cannot be checked graphically".  You do NOT need to evaluate the assumptions for this question.  
 
 *****
-Independence:  \
-Equal variance: \
-Normality of Residuals: \
-Linearity:  \
+Independence: We can not check it graphically
+Equal variance: We can use the residuals vs fitted values plots
+Normality of Residuals: QQ plots of residuals can be used.
+Linearity:  We can use the residuals vs fitted values plots
 
 *****
 
@@ -164,13 +164,23 @@ How many rows are there? How does the number of rows relate to the number of obs
 How many columns are there? How does the number of columns relate to the number of model coefficients/parameters/”betas”? \
 
 *****
-Number of rows = ? = 
+Number of rows = 12 = the number of rows represents the number of observations which are 12 in this case.
 
-Number of cols = ? =   
+Number of cols = 2 =  the number of columns represent two coefficients, the intercept and the slope.
 
 ```{r, Q9}
 #Q9
 
+# model mattrix
+Value <- model.matrix(model)
+
+
+num_rows <- nrow(Value)
+num_cols <- ncol(Value)
+
+
+cat("Number of rows:", num_rows, "\n")
+cat("Number of columns:", num_cols, "\n")
 ```
 
 *****
