@@ -1,0 +1,13 @@
+---
+title: "STAR 513: Homewwork 3"
+author: "Yvette Uwineza"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+#Retain this code chunk!!!
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+library(knitr)
+library(tinytex)
+```

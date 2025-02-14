@@ -1,0 +1,383 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={STAR 513: HW 3},
+  pdfauthor={Yvette Uwineza},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{STAR 513: HW 3}
+\author{Yvette Uwineza}
+\date{}
+
+\begin{document}
+\maketitle
+
+Total points: 40\\
+Questions are worth \textbf{2 pts} each, except where noted.\\
+See Canvas calendar for due date.\\
+
+Homework should be submitted as a pdf, doc or docx file via Canvas.\\
+Use of R markdown HW template is strongly encouraged.\\
+Add or delete code chunks as needed.\\
+Knit frequently to avoid last minute problems!\\
+Your submitted assignment should be neatly formatted and organized.\\
+
+\textbf{Ott \& Longnecker Example 8.7:} It is conjectured that if fields
+are overgrazed by cattle there will be soil compaction (which could lead
+to reduced grass). A horticulturist at the agriculture experiment
+station designed a study to evaluate the conjecture. Three grazing
+regimens are considered:\\
+- Continuous: continuous grazing\\
+- Rest1week: three-week grazing then one-week no grazing and\\
+- Rest2weeks: two-week grazing then two-weeks no grazing.\\
+A total of 21 similar plots of land are selected for the study. Each of
+the three grazing regimens are randomly assigned to 7 plots per regimen.
+After the plots are subject to the grazing regimens for 4 mounts, the
+the soil density (g/cm3) is measured for each plot.
+
+The data GrazeData.csv is available from Canvas.
+
+Prior to starting the statistical analysis, you will first need to
+transpose the data to long format using code something like the
+following. Modify the code as needed. For consistency, the levels of
+graze should match the bullet list above. Be sure to check the modified
+data!
+
+\hypertarget{q1-4-pts}{%
+\subsection{Q1 (4 pts)}\label{q1-4-pts}}
+
+What is the predictor variable (x)? Is this categorical or numeric?\\
+What is the response variable (y)? Is this categorical or numeric?
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+The predictor variable (x) is\\
+The response variable (y) is
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{q2-4-pts}{%
+\subsection{Q2 (4 pts)}\label{q2-4-pts}}
+
+Create a boxplot of the data. Your plot should include axis labels that
+include the units where appropriate. Briefly comment on at least one
+thing you learn from this plot.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+Response
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{q3-4-pts}{%
+\subsection{Q3 (4 pts)}\label{q3-4-pts}}
+
+Create a table of summary statistics of SoilDensity by Graze including
+n, mean and standard deviation. Hint: Use tidyverse group\_by() and
+summarise().
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{q4}{%
+\subsection{Q4}\label{q4}}
+
+Fit an appropriate model and include the detailed ``coefficients table''
+in your assignment. This table includes estimates, standard errors, test
+statistics and p-values. This can be done using tidy() or summary().
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{q5-3-pts}{%
+\subsection{Q5 (3 pts)}\label{q5-3-pts}}
+
+Calculate the estimated average soil density for each of grazing
+regimens, using the coefficient (or parameter) estimates from the
+previous question.\\
+Notes:\\
+(1) You must show your work to get full credit for this question.\\
+(2) Use echo = TRUE to show your work for this question.\\
+(3) Check your own work using simple means from Q3.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Q5}
+\CommentTok{\#GrazeContinuous }
+
+\CommentTok{\#Rest1week }
+
+\CommentTok{\#Rest2weeks }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{q6-3-pts}{%
+\subsection{Q6 (3 pts)}\label{q6-3-pts}}
+
+The estimate labeled ``Intercept'' is \(\hat\beta_0\). Provide a
+detailed one-sentence interpretation of what is being estimated in
+context of this study.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+Response
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{q7-4-pts}{%
+\subsection{Q7 (4 pts)}\label{q7-4-pts}}
+
+The estimate labeled ``GrazeRest1week'' is \(\hat\beta_1\). Provide a
+detailed one-sentence interpretation of what is being estimated in
+context of this study.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+Response
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{q8}{%
+\subsection{Q8}\label{q8}}
+
+Use model.matrix() to examine the design or model matrix (but you do not
+need to include it in your assignment). Provide a brief description of
+the second column labeled ``GrazeRest1week''.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+Response
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{q9}{%
+\subsection{Q9}\label{q9}}
+
+Which grazing regimen does R treat as the reference group? Why is this
+the reference group?
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+Response
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{q10}{%
+\subsection{Q10}\label{q10}}
+
+Provide an ANOVA table corresponding to the model.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{q11}{%
+\subsection{Q11}\label{q11}}
+
+The ANOVA F-test from the previous question corresponds to a null
+hypothesis of \(H_0: \mu_1 = \mu_2 = \mu_3\). Provide a brief,
+statistical conclusion using \(\alpha = 0.05\) (ex: Reject H0 or Fail to
+Reject H0.)
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+Response
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{q12}{%
+\subsection{Q12}\label{q12}}
+
+Now provide a conclusion in context of the research study, limiting
+statistical jargon. Remember we don't accept H0!
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+Response
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{q13}{%
+\subsection{Q13}\label{q13}}
+
+Use emmeans() to provide the emmeans (estimated marginal means).
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{q14}{%
+\subsection{Q14}\label{q14}}
+
+Regardless of any previous results, use pairs(, adjust = ``none'') to
+provide the unadjusted pairwise comparisons. Note: I ask for unadjusted
+pairwise comparisons here for learning purposes. In most cases, we
+prefer Tukey adjusted pairwise comparisons.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{q15}{%
+\subsection{Q15}\label{q15}}
+
+Which of the pairwise comparisons from Q14 already appeared in the
+default output (from Q4)? Why do we get one additional comparison in
+Q14?
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+Response
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{appendix}{%
+\section{Appendix}\label{appendix}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Retain this code chunk!!!}
+\NormalTok{knitr}\SpecialCharTok{::}\NormalTok{opts\_chunk}\SpecialCharTok{$}\FunctionTok{set}\NormalTok{(}\AttributeTok{echo =} \ConstantTok{FALSE}\NormalTok{)}
+\NormalTok{knitr}\SpecialCharTok{::}\NormalTok{opts\_chunk}\SpecialCharTok{$}\FunctionTok{set}\NormalTok{(}\AttributeTok{message =} \ConstantTok{FALSE}\NormalTok{)}
+\FunctionTok{library}\NormalTok{(knitr)}
+\FunctionTok{library}\NormalTok{(tinytex)}
+\CommentTok{\#Import and transpose}
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\NormalTok{GrazeData }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"GrazeData.csv"}\NormalTok{)}
+\NormalTok{GrazeData }\OtherTok{\textless{}{-}}\NormalTok{ GrazeData }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{pivot\_longer}\NormalTok{(}\AttributeTok{cols =} \FunctionTok{everything}\NormalTok{(), }\AttributeTok{names\_to =} \StringTok{"Graze"}\NormalTok{, }\AttributeTok{values\_to =} \StringTok{"SoilDensity"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{Graze =} \FunctionTok{as\_factor}\NormalTok{(Graze)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{arrange}\NormalTok{(Graze)}
+\CommentTok{\#Q2}
+
+\CommentTok{\#Q3}
+
+\CommentTok{\#Q4}
+
+\CommentTok{\#Q5}
+\CommentTok{\#GrazeContinuous }
+
+\CommentTok{\#Rest1week }
+
+\CommentTok{\#Rest2weeks }
+
+
+\CommentTok{\#Q8}
+
+\CommentTok{\#Q10}
+
+\CommentTok{\#Q13}
+
+\CommentTok{\#Q14}
+\end{Highlighting}
+\end{Shaded}
+
+
+\end{document}
