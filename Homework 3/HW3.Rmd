@@ -10,6 +10,14 @@ knitr::opts_chunk$set(echo = FALSE)
 knitr::opts_chunk$set(message = FALSE)
 library(knitr)
 library(tinytex)
+library(tidyverse)
+library(broom)
+library(emmeans)
+
+
+
+ #tinytex::install_tinytex()
+
 ```
 
 Total points: 40 \
@@ -34,12 +42,17 @@ Prior to starting the statistical analysis, you will first need to transpose the
 
 ```{r, Import and transpose}
 #Import and transpose
-library(tidyverse)
+
 GrazeData <- read.csv("GrazeData.csv")
 GrazeData <- GrazeData %>%
   pivot_longer(cols = everything(), names_to = "Graze", values_to = "SoilDensity") %>%
   mutate(Graze = as_factor(Graze)) %>%
   arrange(Graze)
+
+
+#glimpse(GrazeData)
+
+
 ```
 
 ## Q1 (4 pts)
@@ -48,8 +61,8 @@ What is the predictor variable (x)? Is this categorical or numeric? \
 What is the response variable (y)?  Is this categorical or numeric?  
  
 *****
-The predictor variable (x) is  \
-The response variable (y) is  
+The predictor variable (x) is Graze, and it is a categorical variable \
+The response variable (y) is  Soil density, and it is a numerical variable.
 
 *****
 
@@ -60,10 +73,17 @@ Create a boxplot of the data.  Your plot should include axis labels that include
 ```{r, Q2, out.width = "70%"}
 #Q2
 
+ggplot(GrazeData, aes(x = Graze, y = SoilDensity, fill=Graze)) +
+  geom_boxplot() +
+  labs(title = "Boxplot of Soil Density ",
+       x = "Grazing Regimen",
+       y = "Soil Density (g/cm³)") +
+  theme_bw()
+
 ```
 
 *****
-Response
+Continuous grazing has higher soil density compared to Rest1week and Rest2weeks median which is what we would expect when the soil is overgrazed.
 
 *****
 
@@ -76,6 +96,17 @@ Create a table of summary statistics of SoilDensity by Graze including n, mean a
 ```{r, Q3}
 #Q3
 
+
+GrazeData %>%
+  group_by(Graze) %>%
+  summarise(
+    n = n(),
+    mean = mean(SoilDensity),
+    std_dev = sd(SoilDensity)
+  )
+
+
+
 ```
 *****
 
@@ -85,7 +116,14 @@ Fit an appropriate model and include the detailed "coefficients table" in your a
 
 *****
 ```{r, Q4}
+
 #Q4
+
+
+model <- lm (SoilDensity ~ Graze, data = GrazeData)
+
+tidy(model)
+
 
 ```
 *****
@@ -101,12 +139,18 @@ Notes: \
 *****
 ```{r, Q5, echo = TRUE}
 #Q5
+
+coefficients_values <- coef(model)
+
 #GrazeContinuous 
-
+value_1 <- coefficients_values["(Intercept)"]
+value_1
 #Rest1week 
-
+value_2 <- coefficients_values["(Intercept)"] + coefficients_values["GrazeRest1week"]
+value_2
 #Rest2weeks 
-
+value_3 <- coefficients_values["(Intercept)"] + coefficients_values["GrazeRest2weeks"]
+value_3
 
 ```
 
@@ -118,7 +162,9 @@ Notes: \
 The estimate labeled "Intercept" is $\hat\beta_0$.   Provide a detailed one-sentence interpretation of what is being estimated in context of this study. 
 
 *****
-Response 
+
+The intercept shows the estimated average soil density for plots under the continuous grazing regimen.
+
 
 *****
 
@@ -127,7 +173,8 @@ Response
 The estimate labeled "GrazeRest1week" is $\hat\beta_1$.   Provide a detailed one-sentence interpretation of what is being estimated in context of this study. 
 
 *****
-Response
+
+This is the estimated difference in mean soil density between Rest1week regimen and the continuous grazing regimen
 
 *****
 
@@ -142,7 +189,13 @@ Response
 ```{r, Q8}
 #Q8
 
+the_matrix <- model.matrix(model)
+
+
+
 ```
+
+It is a dummy variable that shows the rest1week grazing regimen. This allows us to compared the soil density to the reference group which is continuous grazing.
 
 *****
 
@@ -151,7 +204,9 @@ Response
 Which grazing regimen does R treat as the reference group? Why is this the reference group?
 
 *****
-Response
+
+The continuous grazing regimen is treated as the reference group. R set it as the reference group because it is the first category that we have in our dataset.
+
 
 *****
 
@@ -163,6 +218,11 @@ Provide an ANOVA table corresponding to the model.
 ```{r, Q10}
 #Q10
 
+
+Anova_table<- anova(model)
+
+Anova_table
+
 ```
 
 *****
@@ -171,8 +231,12 @@ Provide an ANOVA table corresponding to the model.
 
 The ANOVA F-test from the previous question corresponds to a null hypothesis of $H_0: \mu_1 = \mu_2 = \mu_3$. Provide a brief, statistical conclusion using $\alpha = 0.05$ (ex: Reject H0 or Fail to Reject H0.)
 
+
 *****
-Response
+
+The p value is 0.1559 > 0.05, so we fail to reject the null hypothesis.
+
+At 0.05 significance level, there is not much evidence that the mean soil density is different from the three grazing regimens.
 
 *****
 
@@ -181,7 +245,8 @@ Response
 Now provide a conclusion in context of the research study, limiting statistical jargon. Remember we don't accept H0!  
 
 *****
-Response
+
+At 0.05 significance level, there is not much evidence that the mean soil density is different from the three grazing regimens. So, this means that the grazing regimens don't significantly affects soil density. Switching up to any of the grazing regimen may not necessarily affect soil density differently.
 
 *****
 
@@ -192,6 +257,10 @@ Use emmeans() to provide the emmeans (estimated marginal means).
 *****
 ```{r, Q13}
 #Q13
+
+emmeans_values<- emmeans(model, ~ Graze)
+
+emmeans_values
 
 ```
 *****
@@ -204,6 +273,10 @@ Regardless of any previous results, use pairs(, adjust = "none") to provide the 
 ```{r, Q14}
 #Q14
 
+unadjusted_pairwise<-pairs(emmeans(model, ~Graze), adjust = "none")
+
+unadjusted_pairwise
+
 ```
 *****
 
@@ -212,7 +285,9 @@ Regardless of any previous results, use pairs(, adjust = "none") to provide the 
 Which of the pairwise comparisons from Q14 already appeared in the default output (from Q4)?  Why do we get one additional comparison in Q14?
 
 *****
-Response
+The comparisons of Continuous - Rest1week and Continuous - Rest2weeks already appeared in the default ouput on from question 4.
+The addition comparison in Q14 is Rest1week - Rest2weeks and we have this because the function provides all the pairwise comparisons which is different from the regression that only compares it to the reference group
+
 
 *****
 
