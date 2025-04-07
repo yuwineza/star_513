@@ -1,0 +1,292 @@
+---
+title: "STAR 513: HW 7"
+author: "Yvette Uwineza"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+#Retain this code chunk!!!
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+library(knitr)
+library(tidyverse)
+library(readr)
+library(splines)
+library(emmeans)
+
+
+# uploading the datasets
+
+# the bikesharing dataset
+bike_sharing <- read_csv("/data/yuwineza/star_513/Homework - 7/bike_sharing.csv")
+
+#glimpse(bike_sharing)
+
+# the ex something too
+
+ex16_23_1_ <- read_csv("/data/yuwineza/star_513/Homework - 7/ex16-23 (1).csv")
+
+#glimpse(ex16_23_1_)
+
+```
+
+Total points: 30 \
+Questions are worth **2 pts** each, except where noted. \
+See Canvas calendar for due date. \
+
+Homework should be submitted as a pdf, doc or docx file via Canvas. \
+Use of R markdown HW template is strongly encouraged. \
+Add or delete code chunks as needed. \
+Knit frequently to avoid last minute problems! \
+Your submitted assignment should be neatly formatted and organized. \
+
+
+# Q1 - Q4 (Bike Share)
+
+For this group of questions, we will model the number of users for a bike sharing program.  The data contains daily observations for n = 551 days. 
+
+For this assignment, we use the following variables: \
+registered_users (y) \
+temp (x): average ambient temperature in degrees Celsius
+
+This data is available from Canvas as `bike_sharing.csv`. 
+
+## Q1
+
+Create a scatterplot of registered users (y) vs temperature (x).
+
+```{r, Q1, out.width = "60%"}
+#Q1
+
+ggplot(bike_sharing, aes(x = temp, y = registered_users)) +
+  geom_point() +  
+  labs(
+    title = "Registered Users vs Temperature",
+    x = "Temperature (°C)",
+    y = "Registered Users"
+  ) +
+  theme_classic()
+
+```
+
+## Q2 (4 pts)
+
+Use the ns() function from the splines package to model the relationship between registered users vs temperature. Show the scatterplot with fitted curve overlaid. Experiment with different values for the df = function to see how the spline fit changes with this value. Choose a value that you feel is appropriate for the data and show only the plot of this fit.  (You will get full credit for any reasonable value.)
+
+```{r, Q2, out.width = "60%"}
+
+#Q2
+
+model_1<- lm(registered_users ~ ns(temp, df = 4), data = bike_sharing)
+summary(model_1)
+
+
+g<- ggplot(bike_sharing, aes(x = temp, y = registered_users)) +
+  geom_point(alpha = 0.5)  +
+  labs(
+    title = "Registered Users vs Temperature with Spline Fit (df = 4)",
+    x = "Temperature (°C)",
+    y = "Registered Users"
+  ) +
+  theme_classic()
+
+g + geom_smooth(method = "lm", 
+              formula = y ~ ns(x, df = 4), 
+              se = FALSE, 
+              color = "blue", 
+              linewidth = 1)
+
+
+```
+
+## Q3 (4 pts)
+
+Fit a cubic regression model. Show the coefficients table and a scatterplot with the fitted curve overlaid.  For consistency, please use `poly(,3)` to fit this model. 
+
+```{r, Q3, out.width = "60%"}
+#Q3
+
+model_2 <- lm(registered_users ~ poly(temp, 3), data = bike_sharing)
+
+# Show coefficients table
+summary(model_2)
+
+g<-ggplot(bike_sharing, aes(x = temp, y = registered_users)) +
+  geom_point(alpha = 0.5) +
+  labs(
+    title = "Cubic Regression Fit",
+    x = "Temperature (°C)",
+    y = "Registered Users"
+  ) +
+  theme_classic()
+
+ g + geom_smooth(method = "lm",
+              formula = y ~ poly(x, 3),
+              se = FALSE,
+              color = "darkred",
+              linewidth = 1)
+
+```
+
+## Q4 
+
+Consider the cubic regression from the previous question.  Do you see any reason to prefer a quadratic model?  Do you see any reason to prefer (or consider) a more complex model (spline or quartic)?  Briefly discuss.  
+
+*****
+Looking at the quadratic model above, I could see that the association was not linear, so there was an need for a quadratic model to cover the curvature. On the other hand though, I don't see a reason for the spline if the quadratic model can cover the same relationship. But in different cases, we might need a non parametric model if it is hard to capture the relationship.
+
+*****
+
+# Q5 - Q9 (Biodiversity)
+
+We continue with the Biodiversity data from Ott & Longnecker Problem 16.23 with the study original published in Pyke (2001). Researchers studied the floristic composition of lowland tropical forest in the watershed of the Panama Canal. Characteristics were measured on n = 45 plots. 
+
+For this assignment, we use the following variables: \
+FisherAlpha: a biodiversity index \
+Age: 1 = secondary forest, 2 = mature secondary, 3 = old growth, primary forest \
+Ppt: annual precipitation (mm) \
+
+We will use FisherAlpha as the response (Y) and Age (factor) and Ppt as predictors. 
+This data is available from Canvas as `ex16-23.csv`. 
+
+**Important Note:** Specify Age as.factor in R before model fitting! \
+Using base R, use code like `AlphaData$Age <- as.factor(AlphaData$Age)` \
+Using tidyverse, use the as_factor() function.  
+
+## Q5 
+
+Fit an appropriate model Age (factor) and Ppt predictors with interaction.  For consistency, please use Age as the first predictor and Ppt as the second predictor.  Such that Age corresponds to $\beta_1, \beta_2$ and Ppt corresponds to $\beta_3$, etc.  
+
+*****
+```{r, Q5}
+#Q5
+
+ex16_23_1_ <- ex16_23_1_ %>%
+  mutate(Age = as_factor(Age))
+
+
+Model_3 <- lm(FisherAlpha ~ Age * Ppt, data = ex16_23_1_)
+summary(Model_3)
+
+
+
+```
+
+*****
+
+
+## Q6
+
+Use emmip (from the emmeans package) to create a visual summary of the model. Suggested code is provided; modify as needed. 
+
+```{r, Q6, out.width = "60%"}
+#Q6
+emmip(Model_3, Age ~ Ppt, cov.reduce = FALSE)
+
+```
+
+
+## Q7 (6 pts)
+
+For each Age category, provide the estimated intercept and slope (corresponding to Ppt).  Using the interaction model from Q5, provide numeric values for each estimate.        
+
+*****
+**Age 1:** \
+Estimated Intercept = -1.549 \
+Estimated Slope =  0.012\
+
+**Age 2:** \
+Estimated Intercept = -1.548882 + 19.688559 = 18.139677 \
+Estimated Slope = 0.011810 + (-0.009512) = 0.002298\
+
+**Age 3:** \
+Estimated Intercept = -1.548882 + 8.415358 = 6.866476 \
+Estimated Slope = 0.011810 + (-0.001963) = 0.009847\
+
+```{r, Q7}
+#Q7
+
+```
+*****
+
+## Q8
+
+Use emmeans to estimate and compare mean diversity at different values of Ppt.  Use the default Tukey adjustment.  For these questions, just show the output.  No need to discuss.
+
+### Q8A
+
+Provide emmeans and contrasts at Ppt = 2000.
+
+*****
+```{r, Q8A}
+#Q8
+
+
+emm_2000 <- emmeans(Model_3, ~ Age, at = list(Ppt = 2000))
+
+
+emm_2000
+
+
+contrast(emm_2000, method = "pairwise", adjust = "tukey")
+
+```
+
+*****
+
+### Q8B 
+
+Provide emmeans and contrasts at Ppt = 3000. 
+
+*****
+```{r, Q8B}
+
+
+emm_3000 <- emmeans(Model_3, ~ Age, at = list(Ppt = 3000))
+
+
+emm_3000
+
+contrast(emm_3000, method = "pairwise", adjust = "tukey")
+
+```
+*****
+
+## Q9
+
+Run a test for Age:Ppt **interaction**.  
+
+### Q9A
+
+Provide an appropriate test statistic and p-value.
+
+*****
+Response
+
+```{r, Q9A}
+#Q9
+
+Anova(Model_3, type  = 3)
+
+```
+Test Statistics, F-value = 0.8883, and p_value = 0.4195
+
+
+*****
+
+### Q9B
+
+Is the interaction (Age*Ppt) or additive (Age + Ppt) model preferred?  Briefly justify your response using the test result from the previous question.
+
+*****
+
+Look at our t-statistics, the p_value is not statistically significant.  So there is no evidence of interaction between Age and Ppt. Therefore, the additie model is preferred for easy interpretation.
+
+*****
+
+
+
+
+# Appendix
+```{r show-code, ref.label = all_labels(), echo = TRUE, eval = FALSE}
+```
