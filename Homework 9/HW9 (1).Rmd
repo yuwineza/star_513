@@ -20,6 +20,8 @@ library(MuMIn)
 # loading the data
 
 bike_sharing <- read_csv("/data/yuwineza/star_513/Homework 9/bike_sharing.csv")
+glimpse(bike_sharing)
+
 
 ```
 
@@ -193,6 +195,8 @@ full_model <- lm(registered_users ~ as.factor(year) + season + weather +
 
 options(na.action = "na.fail")  # required for dredge to work
 model_set <- dredge(full_model, rank = "AIC")
+
+model_set
 
 
 # View top model

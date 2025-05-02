@@ -13,6 +13,7 @@ library(tidyverse)
 library(readr)
 library(splines)
 library(emmeans)
+library(car)
 
 
 # uploading the datasets
