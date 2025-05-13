@@ -282,7 +282,7 @@ tidy(best_model)
 
 ```
 
-R2 = 
+ 
 
 *****
 
@@ -294,6 +294,12 @@ Using your selected model from the previous question, provide diagnostic plots: 
 ```{r, Q13}
 #Q13
 
+
+par(mfrow = c(2, 2))
+
+
+plot(best_model, which = c(1, 2, 4, 5))
+
 ```
 
 
@@ -302,13 +308,13 @@ Using your selected model from the previous question, provide diagnostic plots: 
 State the four assumptions of linear regression (in words) and briefly discuss whether each assumption is satisfied for your selected model. Where applicable, your discussion should mention evidence from a specific plot (graph) from the previous question.
 
 *****
-Assumption 1: \
+Assumption 1: Independence: in this study, each row represents a different participant. So, the observations are independent. \
 
-Assumption 2: \
+Assumption 2: Equal Variance: Looking athe the residual vs Fitted plot, we have some spread variability at higher fitted values, but no clear funnel shape. So, the equal variance is satisfied. \
 
-Assumption 3: \
+Assumption 3: Linearity: We don't have strong curvature as we look at the residuals vs fitted plot. So, the linear assumption is sort of satisfied.\
 
-Assumption 4: \
+Assumption 4: Normality of Residuals: the Q-Q plot shows that the residuals follows the theoreticall ine, so it is satisfied as well.\
 
 *****
 
@@ -317,7 +323,8 @@ Assumption 4: \
 Using your selected model, provide a detailed interpretation of the estimated coefficient corresponding to **Chair.Rise** in context of this study.  Your interpretation should include appropriate units (where applicable) and the numeric value for the estimated coefficient.  
 
 *****
-Response
+
+Holding other variables constant, an increase in one second in Chair Rise time leads an estimated decrease of 9.06 units in total activity.
 
 *****
 
@@ -326,7 +333,8 @@ Response
 Using your selected model, do we have statistical evidence of a linear association between Total.Activity and **Chair.Rise**?  Provide a brief response in context, including direction and appropriate statistical evidence (ex: test statistic and p-value or confidence interval.)
 
 *****
-Response
+
+Yes, we have evidence of linear association between chair rise time and total activity. The association is negative, the t stat is -2.76 and the p_value is 0.0098 < 0.05
 
 *****
 
@@ -335,7 +343,7 @@ Response
 Consider your selected model from Q12, could this model have been selected by **backwards elimination using p-values** (with alpha = 0.05)?   Your discussion should be brief, but still be specific.  
 
 *****
-Response
+Using Backward elimination, only variables with a pvalue less that 0.05 would stay. So, this model would not have been selected by backward elimination using p-values. Walk.speed has a pvalue of 0.086, and it would have been dropped.
 
 *****
 
@@ -367,9 +375,7 @@ What is the total number of rows in the data?
 
 *****
 
-```{r, Q18}
-
-```
+Each subject gets measured 3 Time points: 30 subjects x 3 (Time points per subject) = 90 rows.
 
 *****
 
@@ -378,7 +384,8 @@ What is the total number of rows in the data?
 Explain why a mixed model (ex: lmer) is appropriate here.  Your response should specifically address what assumption of a linear model (ex: lm) is NOT satisfied for this data.
 
 *****
-Response 
+
+A mixed model is appropriated here because the same subjects are measured at multiple time points, creating non-independent observations. The usual lm assumes that ll observation are independent which is violated in our case where we have repeated models. A mixed model addresses this by including a random effects for subject, which adjusts for the correlation among measurements from the same individual.
 
 *****
 
@@ -387,11 +394,13 @@ Response
 What is the response variable? What are the fixed effect(s)?  What are the random effect(s)?  No need to justify.  
 
 *****
-Response: 
+Response: BDNF (ng/ml)
 
 Fixed effect(s): 
+Age, Time, Age x Time interaction 
 
 Random effect(s):
+Subject
 
 *****
 
@@ -400,7 +409,8 @@ Random effect(s):
 Would you include a Age:Time interaction in your model?  Briefly justify your response.
 
 *****
-Response 
+
+Yes, I would include the interaction because the study tell us that the effect of fasting on BDNF levels may differ between Age groups.
 
 *****
 
@@ -409,7 +419,8 @@ Response
 In the default data format, Time (0, 12, 24) is numeric.  But of course, we can convert Time to a factor (categorical predictor).  Discuss the impact of treating Time as numeric vs as factor.  For example, how would this change the interpretation of parameters?
 
 *****
-Response 
+
+If time is considered as numeric, the model assumes a linear relationship between Time and BDNF. The parameter estimate for Time would be interpreted as the expected change in BDNF per one hour increase. On the other hand, if time is treated as a factor, the model won't take into consideration change across Time points. Each level time is compared to a reference group.
 
 *****
 
